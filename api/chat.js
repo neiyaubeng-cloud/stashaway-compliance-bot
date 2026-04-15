@@ -18,7 +18,8 @@ export default async function handler(req, res) {
       })
     });
     const data = await response.json();
-    return res.status(200).json({ reply: data.content[0]?.text || 'No response.' });
+    const reply = data?.content?.[0]?.text || data?.error?.message || JSON.stringify(data);
+    return res.status(200).json({ reply });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
